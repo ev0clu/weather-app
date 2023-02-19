@@ -151,6 +151,27 @@ body {
     background-color: var(--body-color);
 }
 
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    height: 5rem;
+    font-weight: 900;
+    letter-spacing: 0.1rem;
+}
+
+header h1 {
+    margin-left: 2rem;
+    font-size: 2rem;
+}
+
+header p {
+    margin-right: 2rem;
+    font-size: 1.2rem;
+}
+
 footer {
     /*position: absolute;
     bottom: 0;*/
