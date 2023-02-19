@@ -14,13 +14,7 @@ const ui = (() => {
         return header;
     };
 
-    const createMain = () => {
-        const main = document.createElement('main');
-
-        return main;
-    };
-
-    const createInput = () => {
+    const createSearchInput = () => {
         const input = document.createElement('input');
         input.classList.add('input');
         input.id = 'search-input';
@@ -36,6 +30,68 @@ const ui = (() => {
         addButton.textContent = 'Search';
 
         return addButton;
+    };
+
+    const createCurrentWeatherContentLeft = (
+        cityName,
+        cityID,
+        weatherImg,
+        temp,
+        weatherDescription
+    ) => {
+        const contentFieldLeft = document.createElement('div');
+
+        const cityTitle = document.createElement('h1');
+        cityTitle.textContent = `${cityName}, ${cityID}`;
+
+        const weatherIcon = document.createElement('img');
+
+        weatherIcon.src = `../src/assets/images/${weatherImg}.png`;
+
+        const temperature = document.createElement('p');
+        temperature.textContent = `${temp} °C`;
+
+        const weatherDetails = document.createElement('p');
+        weatherDetails.textContent = `${weatherDescription}`;
+
+        contentFieldLeft.append(cityTitle, weatherIcon, temperature, weatherDetails);
+
+        return contentFieldLeft;
+    };
+
+    const createCurrentWeatherContentRight = (humidity, clouds, pressure, wind) => {
+        const contentFieldRight = document.createElement('div');
+
+        const humidityContent = document.createElement('p');
+        humidityContent.textContent = `Humidity: ${humidity} %`;
+
+        const cloudContent = document.createElement('p');
+        cloudContent.textContent = `Clouds: ${clouds} %`;
+
+        const pressureContent = document.createElement('p');
+        pressureContent.textContent = `Pressure: ${pressure} hPa`;
+
+        const winContent = document.createElement('p');
+        const calcWind = Math.round((Number(wind) / 1000 / (1 / 3600)) * 100) / 100;
+        winContent.textContent = `Wind: ${calcWind} km/h`;
+
+        contentFieldRight.append(humidityContent, cloudContent, pressureContent, winContent);
+
+        return contentFieldRight;
+    };
+
+    const createMain = () => {
+        const main = document.createElement('main');
+
+        const searchContainer = document.createElement('div');
+        searchContainer.append(createSearchInput(), createSearchButton());
+
+        const currentWeatherContainer = document.createElement('div');
+        currentWeatherContainer.id = 'current-weather-container';
+
+        main.append(searchContainer, currentWeatherContainer);
+
+        return main;
     };
 
     const createFooterText = () => {
@@ -68,13 +124,50 @@ const ui = (() => {
 
         return footer;
     };
+    const showError = (error) => {
+        const currentWeatherContainer = document.getElementById('current-weather-container');
+        currentWeatherContainer.textContent = '';
 
-    const loadUI = () => {
+        const errorMsg = document.createElement('div');
+        errorMsg.classList.add('error-msg');
+        errorMsg.textContent = error;
+        currentWeatherContainer.append(errorMsg);
+
+        return currentWeatherContainer;
+    };
+
+    const updateWeatherContent = (
+        cityName,
+        cityID,
+        weatherGroup,
+        temp,
+        weatherDescription,
+        humidity,
+        clouds,
+        pressure,
+        wind
+    ) => {
+        const currentWeatherContainer = document.getElementById('current-weather-container');
+        currentWeatherContainer.textContent = '';
+
+        currentWeatherContainer.append(
+            createCurrentWeatherContentLeft(
+                cityName,
+                cityID,
+                weatherGroup,
+                temp,
+                weatherDescription
+            ),
+            createCurrentWeatherContentRight(humidity, clouds, pressure, wind)
+        );
+    };
+
+    const createHTML = () => {
         const body = document.querySelector('body');
         body.append(createHeader(), createMain(), createFooter());
     };
 
-    return { loadUI };
+    return { createHTML, updateWeatherContent, showError };
 })();
 
 export default ui;

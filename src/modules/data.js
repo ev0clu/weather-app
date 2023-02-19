@@ -2,11 +2,10 @@ const data = (() => {
     const processData = (object) => {
         const weather = {
             city: object.name,
-            country: object.sys.country,
-            weather: object.weather[0].main,
+            cityID: object.sys.country,
+            weatherGroup: object.weather[0].main,
+            weatherDescription: object.weather[0].description,
             tempAverage: object.main.temp,
-            tempMin: object.main.temp_min,
-            tempMax: object.main.temp_max,
             pressure: object.main.pressure,
             humidity: object.main.humidity,
             wind: object.wind.speed,
@@ -24,7 +23,7 @@ const data = (() => {
                 { mode: 'cors' }
             );
             if (!response.ok) {
-                throw new Error(`Error ${response.status}: ${response.statusText}`);
+                throw new Error(`${response.status} ${response.statusText}`);
             }
             const weatherData = await response.json();
             return { success: true, result: weatherData };

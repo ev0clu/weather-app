@@ -172,6 +172,10 @@ header p {
     font-size: 1.2rem;
 }
 
+main {
+    flex: 2;
+}
+
 footer {
     /*position: absolute;
     bottom: 0;*/
