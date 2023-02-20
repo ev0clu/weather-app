@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 /* --- Reset CSS --- */
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
 */
-
 html,
 body,
 div,
@@ -134,6 +134,16 @@ table {
 
 :root {
     --body-color: #f5f5f4;
+    --item-color-hover: #e7e5e4;
+    --border-color: #d6d3d1;
+    --clouds-color-primary: #155e75;
+    --clouds-color-secondary: #0891b2;
+    --snow-color-primary: #22d3ee;
+    --snow-color-secondary: #a5f3fc;
+    --clear-color-primary: #0ea5e9;
+    --clear-color-secondary: #7dd3fc;
+    --error-color-primary: #b91c1c;
+    --error-color-secondary: #ef4444;
 }
 
 * {
@@ -174,6 +184,121 @@ header p {
 
 main {
     flex: 2;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 0 3rem 0;
+}
+
+#search-input {
+    font-family: 'Hind Siliguri', sans-serif, 'Segoe UI', Helvetica, Arial, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', system-ui;
+    font-size: 1rem;
+    padding: 0.3rem 0.6rem 0.3rem 0.6rem;
+    background-color: transparent;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 2px solid var(--border-color);
+    outline: none;
+}
+
+#btn-search {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    font: inherit;
+    outline: inherit;
+}
+
+.material-symbols-outlined:hover {
+    font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+    cursor: pointer;
+}
+
+.material-symbols-outlined {
+    font-size: 2rem;
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+}
+
+#current-weather-container {
+    height: 20rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    margin: 1rem 14rem 14rem 10rem;
+    border-radius: 16px;
+    color: #e2e8f0;
+}
+
+.current-weather-container-left,
+.current-weather-container-right {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    font-weight: 700;
+}
+
+.current-weather-container-left {
+    align-items: center;
+    justify-content: center;
+}
+
+.current-weather-container-left h1,
+#error-msg {
+    font-size: 3rem;
+}
+
+.temperature {
+    font-size: 2.5rem;
+}
+
+.current-weather-container-right {
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+    font-size: 1.5rem;
+}
+
+.clouds {
+    background: linear-gradient(
+        to bottom right,
+        var(--clouds-color-primary),
+        var(--clouds-color-secondary)
+    );
+}
+
+.snow {
+    background: linear-gradient(
+        to bottom right,
+        var(--snow-color-primary),
+        var(--snow-color-secondary)
+    );
+}
+
+.clear {
+    background: linear-gradient(
+        to bottom right,
+        var(--clear-color-primary),
+        var(--clear-color-secondary)
+    );
+}
+
+.error {
+    background: linear-gradient(
+        to bottom right,
+        var(--error-color-primary),
+        var(--error-color-secondary)
+    );
 }
 
 footer {

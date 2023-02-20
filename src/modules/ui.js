@@ -25,11 +25,16 @@ const ui = (() => {
     };
 
     const createSearchButton = () => {
-        const addButton = document.createElement('button');
-        addButton.id = 'btn-search';
-        addButton.textContent = 'Search';
+        const searchButton = document.createElement('button');
+        searchButton.id = 'btn-search';
 
-        return addButton;
+        const searchButtonSpan = document.createElement('span');
+        searchButtonSpan.classList.add('material-symbols-outlined');
+        searchButtonSpan.textContent = 'search';
+
+        searchButton.appendChild(searchButtonSpan);
+
+        return searchButton;
     };
 
     const createCurrentWeatherContentLeft = (
@@ -40,6 +45,7 @@ const ui = (() => {
         weatherDescription
     ) => {
         const contentFieldLeft = document.createElement('div');
+        contentFieldLeft.classList.add('current-weather-container-left');
 
         const cityTitle = document.createElement('h1');
         cityTitle.textContent = `${cityName}, ${cityID}`;
@@ -49,6 +55,7 @@ const ui = (() => {
         weatherIcon.src = `../src/assets/images/${weatherImg}.png`;
 
         const temperature = document.createElement('p');
+        temperature.classList.add('temperature');
         temperature.textContent = `${temp} °C`;
 
         const weatherDetails = document.createElement('p');
@@ -61,6 +68,7 @@ const ui = (() => {
 
     const createCurrentWeatherContentRight = (humidity, clouds, pressure, wind) => {
         const contentFieldRight = document.createElement('div');
+        contentFieldRight.classList.add('current-weather-container-right');
 
         const humidityContent = document.createElement('p');
         humidityContent.textContent = `Humidity: ${humidity} %`;
@@ -84,6 +92,7 @@ const ui = (() => {
         const main = document.createElement('main');
 
         const searchContainer = document.createElement('div');
+        searchContainer.classList.add('search-container');
         searchContainer.append(createSearchInput(), createSearchButton());
 
         const currentWeatherContainer = document.createElement('div');
@@ -127,9 +136,11 @@ const ui = (() => {
     const showError = (error) => {
         const currentWeatherContainer = document.getElementById('current-weather-container');
         currentWeatherContainer.textContent = '';
+        currentWeatherContainer.className = '';
+        currentWeatherContainer.classList.add(`error`);
 
         const errorMsg = document.createElement('div');
-        errorMsg.classList.add('error-msg');
+        errorMsg.id = 'error-msg';
         errorMsg.textContent = error;
         currentWeatherContainer.append(errorMsg);
 
@@ -160,6 +171,30 @@ const ui = (() => {
             ),
             createCurrentWeatherContentRight(humidity, clouds, pressure, wind)
         );
+
+        let bgColor = '';
+        switch (weatherGroup) {
+            case '11d':
+            case '09d':
+            case '03d':
+                bgColor = 'clouds';
+                break;
+            case '13d':
+            case '50d':
+                bgColor = 'snow';
+                break;
+            case '01d':
+                bgColor = 'clear';
+                break;
+            default:
+                bgColor = '';
+                break;
+        }
+        currentWeatherContainer.className = '';
+        currentWeatherContainer.classList.add(`${bgColor}`);
+
+        const searchInput = document.getElementById('search-input');
+        searchInput.value = '';
     };
 
     const createHTML = () => {
