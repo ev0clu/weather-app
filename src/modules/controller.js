@@ -20,42 +20,69 @@ const controller = (() => {
         }
     };
 
-    const getData = async (city) => {
-        const { success, result, error } = await data.fetchCurrentData(city);
-        let fetchResult = '';
-        let isError = false;
+    const getCurrentData = async (city) => {
+        const { successCurrentData, resultCurrentData, errorCurrentData } =
+            await data.fetchCurrentData(city);
+        let fetchCurrentDataResult = '';
+        let isCurrendDataError = false;
 
-        if (success) {
-            const fetchedData = result;
-            const weatherData = data.processData(fetchedData);
-            fetchResult = weatherData;
+        if (successCurrentData) {
+            const weatherData = data.processCurrentData(resultCurrentData);
+            fetchCurrentDataResult = weatherData;
         } else {
-            isError = true;
-            fetchResult = error;
+            isCurrendDataError = true;
+            fetchCurrentDataResult = errorCurrentData;
         }
 
-        return { fetchResult, isError };
+        return { fetchCurrentDataResult, isCurrendDataError };
+    };
+
+    const getFiveDaysData = async (city) => {
+        const { successFiveDaysData, resultFiveDaysData, errorFiveDaysData } =
+            await data.fetchFiveDaysData(city);
+        let fetchFiveDaysDataResult = '';
+        let isFiveDaysDataError = false;
+
+        if (successFiveDaysData) {
+            const weatherData = data.processFiveDaysData(resultFiveDaysData);
+            fetchFiveDaysDataResult = weatherData;
+        } else {
+            isFiveDaysDataError = true;
+            fetchFiveDaysDataResult = errorFiveDaysData;
+        }
+
+        return { fetchFiveDaysDataResult, isFiveDaysDataError };
     };
 
     const renderPage = async () => {
         // Create HTML with default location informations
         ui.createHTML();
-        const { fetchResult, isError } = await getData('Veszprem');
-        if (!isError) {
-            const weatherImg = getWeatherStatus(fetchResult.weatherGroup);
-            ui.updateWeatherContent(
-                fetchResult.city,
-                fetchResult.cityID,
-                weatherImg,
-                fetchResult.tempAverage,
-                fetchResult.weatherDescription,
-                fetchResult.humidity,
-                fetchResult.clouds,
-                fetchResult.pressure,
-                fetchResult.wind
+        const { fetchCurrentDataResult, isCurrendDataError } = await getCurrentData('Budapest');
+        const { fetchFiveDaysDataResult, isFiveDaysDataError } = await getFiveDaysData('Budapest');
+
+        if (!isCurrendDataError && !isFiveDaysDataError) {
+            ui.updateWeatherContentCurrendData(
+                fetchCurrentDataResult.city,
+                fetchCurrentDataResult.cityID,
+                getWeatherStatus(fetchCurrentDataResult.weatherGroup),
+                fetchCurrentDataResult.tempAverage,
+                fetchCurrentDataResult.weatherDescription,
+                fetchCurrentDataResult.humidity,
+                fetchCurrentDataResult.clouds,
+                fetchCurrentDataResult.pressure,
+                fetchCurrentDataResult.wind
             );
+
+            for (let i = 0; i < fetchFiveDaysDataResult.length; i++) {
+                ui.updateWeatherContentFiveDaysData(
+                    fetchFiveDaysDataResult[i].date,
+                    getWeatherStatus(fetchFiveDaysDataResult[i].weatherGroup),
+                    fetchFiveDaysDataResult[i].weatherDescription,
+                    fetchFiveDaysDataResult[i].tempAverage
+                );
+            }
         } else {
-            ui.showError(fetchResult);
+            ui.showError(fetchCurrentDataResult);
         }
     };
 
@@ -64,22 +91,36 @@ const controller = (() => {
         const searchInput = document.getElementById('search-input');
 
         searchButton.addEventListener('click', async () => {
-            const { fetchResult, isError } = await getData(searchInput.value);
-            if (!isError) {
-                const weatherImg = getWeatherStatus(fetchResult.weatherGroup);
-                ui.updateWeatherContent(
-                    fetchResult.city,
-                    fetchResult.cityID,
-                    weatherImg,
-                    fetchResult.tempAverage,
-                    fetchResult.weatherDescription,
-                    fetchResult.humidity,
-                    fetchResult.clouds,
-                    fetchResult.pressure,
-                    fetchResult.wind
+            const { fetchCurrentDataResult, isCurrendDataError } = await getCurrentData(
+                searchInput.value
+            );
+            const { fetchFiveDaysDataResult, isFiveDaysDataError } = await getFiveDaysData(
+                searchInput.value
+            );
+
+            if (!isCurrendDataError && !isFiveDaysDataError) {
+                ui.updateWeatherContentCurrendData(
+                    fetchCurrentDataResult.city,
+                    fetchCurrentDataResult.cityID,
+                    getWeatherStatus(fetchCurrentDataResult.weatherGroup),
+                    fetchCurrentDataResult.tempAverage,
+                    fetchCurrentDataResult.weatherDescription,
+                    fetchCurrentDataResult.humidity,
+                    fetchCurrentDataResult.clouds,
+                    fetchCurrentDataResult.pressure,
+                    fetchCurrentDataResult.wind
                 );
+
+                for (let i = 0; i < fetchFiveDaysDataResult.length; i++) {
+                    ui.updateWeatherContentFiveDaysData(
+                        fetchFiveDaysDataResult[i].date,
+                        getWeatherStatus(fetchFiveDaysDataResult[i].weatherGroup),
+                        fetchFiveDaysDataResult[i].weatherDescription,
+                        fetchFiveDaysDataResult[i].tempAverage
+                    );
+                }
             } else {
-                ui.showError(fetchResult);
+                ui.showError(fetchCurrentDataResult);
             }
         });
 

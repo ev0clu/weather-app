@@ -88,8 +88,36 @@ const ui = (() => {
         return contentFieldRight;
     };
 
+    const createFiveDaysWeatherContent = (date, weatherImg, weatherDescription, temp) => {
+        const contentField = document.createElement('div');
+        contentField.classList.add('five-days-content');
+
+        const dateContent = document.createElement('p');
+        dateContent.textContent = `${format(new Date(date), 'dd/MM Kaaa')}`;
+
+        const weatherIconDiv = document.createElement('div');
+        weatherIconDiv.classList.add('five-days-img-container');
+        const weatherIcon = document.createElement('img');
+        weatherIconDiv.appendChild(weatherIcon);
+
+        weatherIcon.src = `../src/assets/images/${weatherImg}.png`;
+
+        const temperature = document.createElement('p');
+        temperature.textContent = `${Math.round(temp)} °C`;
+
+        const weatherDetails = document.createElement('p');
+        weatherDetails.textContent = `${weatherDescription}`;
+
+        contentField.append(dateContent, weatherIconDiv, temperature, weatherDetails);
+
+        return contentField;
+    };
+
     const createMain = () => {
         const main = document.createElement('main');
+
+        const content = document.createElement('div');
+        content.id = 'content';
 
         const searchContainer = document.createElement('div');
         searchContainer.classList.add('search-container');
@@ -98,7 +126,11 @@ const ui = (() => {
         const currentWeatherContainer = document.createElement('div');
         currentWeatherContainer.id = 'current-weather-container';
 
-        main.append(searchContainer, currentWeatherContainer);
+        const fiveDaysWeatherContainer = document.createElement('div');
+        fiveDaysWeatherContainer.id = 'five-days-weather-container';
+
+        content.append(searchContainer, currentWeatherContainer, fiveDaysWeatherContainer);
+        main.appendChild(content);
 
         return main;
     };
@@ -134,20 +166,19 @@ const ui = (() => {
         return footer;
     };
     const showError = (error) => {
-        const currentWeatherContainer = document.getElementById('current-weather-container');
-        currentWeatherContainer.textContent = '';
-        currentWeatherContainer.className = '';
-        currentWeatherContainer.classList.add(`error`);
+        const content = document.getElementById('content');
+        content.textContent = '';
+        content.classList.add('error');
 
         const errorMsg = document.createElement('div');
         errorMsg.id = 'error-msg';
         errorMsg.textContent = error;
-        currentWeatherContainer.append(errorMsg);
+        content.append(errorMsg);
 
-        return currentWeatherContainer;
+        return content;
     };
 
-    const updateWeatherContent = (
+    const updateWeatherContentCurrendData = (
         cityName,
         cityID,
         weatherGroup,
@@ -159,7 +190,11 @@ const ui = (() => {
         wind
     ) => {
         const currentWeatherContainer = document.getElementById('current-weather-container');
+        const fiveDaysWeatherContainer = document.getElementById('five-days-weather-container');
+
+        const content = document.getElementById('content');
         currentWeatherContainer.textContent = '';
+        fiveDaysWeatherContainer.textContent = '';
 
         currentWeatherContainer.append(
             createCurrentWeatherContentLeft(
@@ -190,8 +225,19 @@ const ui = (() => {
                 bgColor = '';
                 break;
         }
-        currentWeatherContainer.className = '';
-        currentWeatherContainer.classList.add(`${bgColor}`);
+        content.className = '';
+        content.classList.add(`${bgColor}`);
+
+        const searchInput = document.getElementById('search-input');
+        searchInput.value = '';
+    };
+
+    const updateWeatherContentFiveDaysData = (date, weatherGroup, weatherDescription, temp) => {
+        const fiveDaysWeatherContainer = document.getElementById('five-days-weather-container');
+
+        fiveDaysWeatherContainer.append(
+            createFiveDaysWeatherContent(date, weatherGroup, weatherDescription, temp)
+        );
 
         const searchInput = document.getElementById('search-input');
         searchInput.value = '';
@@ -202,7 +248,12 @@ const ui = (() => {
         body.append(createHeader(), createMain(), createFooter());
     };
 
-    return { createHTML, updateWeatherContent, showError };
+    return {
+        createHTML,
+        updateWeatherContentCurrendData,
+        updateWeatherContentFiveDaysData,
+        showError
+    };
 })();
 
 export default ui;

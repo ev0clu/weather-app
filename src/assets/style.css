@@ -167,23 +167,40 @@ header {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    height: 5rem;
     font-weight: 900;
     letter-spacing: 0.1rem;
+    padding: 1rem 0 1rem 0;
 }
 
 header h1 {
     margin-left: 2rem;
     font-size: 2rem;
+    text-align: start;
 }
 
 header p {
     margin-right: 2rem;
     font-size: 1.2rem;
+    text-align: end;
 }
 
 main {
-    flex: 2;
+    flex: 1;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 10rem 0.5rem 10rem;
+    padding: 1rem 0 1rem 0;
+    border-radius: 16px;
+}
+
+#content,
+::placeholder {
+    color: #e2e8f0;
 }
 
 .search-container {
@@ -191,7 +208,7 @@ main {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 3rem 0 3rem 0;
+    padding-top: 1.5rem;
 }
 
 #search-input {
@@ -230,20 +247,19 @@ main {
 
 #current-weather-container {
     height: 20rem;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 3rem;
-    margin: 1rem 14rem 14rem 10rem;
-    border-radius: 16px;
-    color: #e2e8f0;
 }
 
 .current-weather-container-left,
 .current-weather-container-right {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 1rem;
     font-weight: 700;
 }
@@ -267,6 +283,39 @@ main {
     justify-content: flex-start;
     gap: 1rem;
     font-size: 1.5rem;
+}
+
+#five-days-weather-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    width: 35rem;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    scrollbar-width: thin;
+    padding: 0.5rem;
+}
+
+.five-days-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.five-days-content p:last-child {
+    height: 2rem;
+}
+
+.five-days-img-container {
+    height: 5rem;
+    width: 5rem;
+}
+.five-days-img-container img {
+    height: 100%;
+    width: auto;
 }
 
 .clouds {
@@ -332,7 +381,45 @@ footer {
 /* MEDIA QUERIES */
 
 @media (max-width: 1200px) {
+    #content {
+        margin: 1.5rem 5rem 0.5rem 5rem;
+        padding: 0.5rem 0 0.5rem 0;
+    }
 }
 
 @media (max-width: 750px) {
+    header h1 {
+        margin-left: 1rem;
+        font-size: 1.6rem;
+        overflow-wrap: break-word;
+    }
+
+    header p {
+        margin-right: 1rem;
+        font-size: 1.1rem;
+    }
+
+    #content {
+        margin: 1rem 1rem 0.5rem 1rem;
+    }
+
+    .current-weather-container-left h1,
+    #error-msg {
+        font-size: 1.7rem;
+    }
+
+    .current-weather-container-left img {
+        height: 10rem;
+        width: auto;
+    }
+
+    .current-weather-container-right {
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
+
+    #five-days-weather-container {
+        gap: 1.5rem;
+        width: 19rem;
+    }
 }
