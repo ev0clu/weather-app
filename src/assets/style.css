@@ -235,6 +235,7 @@ main {
     border: none;
     font: inherit;
     outline: inherit;
+    color: var(--text-color);
 }
 
 .material-symbols-outlined:hover {
