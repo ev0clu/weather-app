@@ -8,7 +8,9 @@ A weather forecast site has built using weather API from [OpenWeatherMap](https:
 
 -   Dinamically rendering website
 -   Search location by city name
--   Change background color according to the weather
+-   Display current weather informations
+-   Display 5 days weather forecast informaitons with 3-hour step
+-   Change background color and icons according to the weather status
 -   Display error if city name does not exist
 
 ## Dependencies
@@ -30,5 +32,3 @@ A weather forecast site has built using weather API from [OpenWeatherMap](https:
 ### Layout
 
 ![layout picture](https://github.com/ev0clu/weather-app/blob/main/layout.png?raw=true)
-
-#### Assets
