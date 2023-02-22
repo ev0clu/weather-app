@@ -2,24 +2,6 @@ import data from './data';
 import ui from './ui';
 
 const controller = (() => {
-    const getWeatherStatus = (weatherGroup) => {
-        switch (weatherGroup) {
-            case 'Thunderstorm':
-                return '11d';
-            case 'Drizzle':
-            case 'Rain':
-                return '09d';
-            case 'Snow':
-                return '13d';
-            case 'Clear':
-                return '01d';
-            case 'Clouds':
-                return '03d';
-            default:
-                return '50d';
-        }
-    };
-
     const getCurrentData = async (city) => {
         const { successCurrentData, resultCurrentData, errorCurrentData } =
             await data.fetchCurrentData(city);
@@ -64,7 +46,7 @@ const controller = (() => {
             ui.updateWeatherContentCurrendData(
                 fetchCurrentDataResult.city,
                 fetchCurrentDataResult.cityID,
-                getWeatherStatus(fetchCurrentDataResult.weatherGroup),
+                fetchCurrentDataResult.weatherGroup,
                 fetchCurrentDataResult.tempAverage,
                 fetchCurrentDataResult.weatherDescription,
                 fetchCurrentDataResult.humidity,
@@ -76,7 +58,7 @@ const controller = (() => {
             for (let i = 0; i < fetchFiveDaysDataResult.length; i++) {
                 ui.updateWeatherContentFiveDaysData(
                     fetchFiveDaysDataResult[i].date,
-                    getWeatherStatus(fetchFiveDaysDataResult[i].weatherGroup),
+                    fetchFiveDaysDataResult[i].weatherGroup,
                     fetchFiveDaysDataResult[i].weatherDescription,
                     fetchFiveDaysDataResult[i].tempAverage
                 );
@@ -102,7 +84,7 @@ const controller = (() => {
                 ui.updateWeatherContentCurrendData(
                     fetchCurrentDataResult.city,
                     fetchCurrentDataResult.cityID,
-                    getWeatherStatus(fetchCurrentDataResult.weatherGroup),
+                    fetchCurrentDataResult.weatherGroup,
                     fetchCurrentDataResult.tempAverage,
                     fetchCurrentDataResult.weatherDescription,
                     fetchCurrentDataResult.humidity,
@@ -114,7 +96,7 @@ const controller = (() => {
                 for (let i = 0; i < fetchFiveDaysDataResult.length; i++) {
                     ui.updateWeatherContentFiveDaysData(
                         fetchFiveDaysDataResult[i].date,
-                        getWeatherStatus(fetchFiveDaysDataResult[i].weatherGroup),
+                        fetchFiveDaysDataResult[i].weatherGroup,
                         fetchFiveDaysDataResult[i].weatherDescription,
                         fetchFiveDaysDataResult[i].tempAverage
                     );

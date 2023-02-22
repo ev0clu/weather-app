@@ -1,6 +1,48 @@
 import { format } from 'date-fns';
+import github from '../assets/images/github-logo.png';
+import clearImg from '../assets/images/01d.png';
+import cloudsImg from '../assets/images/03d.png';
+import fogImg from '../assets/images/50d.png';
+import snowImg from '../assets/images/13d.png';
+import rainImg from '../assets/images/09d.png';
+import thunderstormImg from '../assets/images/11d.png';
 
 const ui = (() => {
+    const getWeatherCode = (weatherGroup) => {
+        switch (weatherGroup) {
+            case 'Thunderstorm':
+                return thunderstormImg;
+            case 'Drizzle':
+            case 'Rain':
+                return rainImg;
+            case 'Snow':
+                return snowImg;
+            case 'Clear':
+                return clearImg;
+            case 'Clouds':
+                return cloudsImg;
+            default:
+                return fogImg;
+        }
+    };
+
+    const getWeatherColor = (weatherGroup) => {
+        switch (weatherGroup) {
+            case 'Thunderstorm':
+            case 'Drizzle':
+            case 'Rain':
+            case 'Clouds':
+                return 'clouds';
+            case 'Snow':
+            case 'Atmosphere':
+                return 'snow';
+            case 'Clear':
+                return 'clear';
+            default:
+                return '';
+        }
+    };
+
     const createHeader = () => {
         const header = document.createElement('header');
 
@@ -40,7 +82,7 @@ const ui = (() => {
     const createCurrentWeatherContentLeft = (
         cityName,
         cityID,
-        weatherImg,
+        weatherGroup,
         temp,
         weatherDescription
     ) => {
@@ -52,7 +94,7 @@ const ui = (() => {
 
         const weatherIcon = document.createElement('img');
 
-        weatherIcon.src = `../src/assets/images/${weatherImg}.png`;
+        weatherIcon.src = getWeatherCode(weatherGroup);
 
         const temperature = document.createElement('p');
         temperature.classList.add('temperature');
@@ -88,7 +130,7 @@ const ui = (() => {
         return contentFieldRight;
     };
 
-    const createFiveDaysWeatherContent = (date, weatherImg, weatherDescription, temp) => {
+    const createFiveDaysWeatherContent = (date, weatherGroup, weatherDescription, temp) => {
         const contentField = document.createElement('div');
         contentField.classList.add('five-days-content');
 
@@ -100,7 +142,7 @@ const ui = (() => {
         const weatherIcon = document.createElement('img');
         weatherIconDiv.appendChild(weatherIcon);
 
-        weatherIcon.src = `../src/assets/images/${weatherImg}.png`;
+        weatherIcon.src = getWeatherCode(weatherGroup);
 
         const temperature = document.createElement('p');
         temperature.textContent = `${Math.round(temp)} °C`;
@@ -151,7 +193,7 @@ const ui = (() => {
 
         const image = document.createElement('img');
         image.classList.add('github-img');
-        image.src = '../src/assets/images/github-logo.png';
+        image.src = github;
         image.alt = 'Github logo';
 
         link.appendChild(image);
@@ -207,26 +249,8 @@ const ui = (() => {
             createCurrentWeatherContentRight(humidity, clouds, pressure, wind)
         );
 
-        let bgColor = '';
-        switch (weatherGroup) {
-            case '11d':
-            case '09d':
-            case '03d':
-                bgColor = 'clouds';
-                break;
-            case '13d':
-            case '50d':
-                bgColor = 'snow';
-                break;
-            case '01d':
-                bgColor = 'clear';
-                break;
-            default:
-                bgColor = '';
-                break;
-        }
         content.className = '';
-        content.classList.add(`${bgColor}`);
+        content.classList.add(`${getWeatherColor(weatherGroup)}`);
 
         const searchInput = document.getElementById('search-input');
         searchInput.value = '';
