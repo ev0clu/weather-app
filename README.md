@@ -31,4 +31,5 @@ A weather forecast site has built using weather API from [OpenWeatherMap](https:
 
 ### Layout
 
-![layout picture](https://github.com/ev0clu/weather-app/blob/main/layout.png?raw=true)
+![layout1 picture](https://github.com/ev0clu/weather-app/blob/main/layout1.png?raw=true)
+![layout2 picture](https://github.com/ev0clu/weather-app/blob/main/layout2.png?raw=true)
